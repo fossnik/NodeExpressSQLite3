@@ -21,11 +21,12 @@ function getAllCoins(req, res, next) {
 			 FROM sqlite_master
 			 WHERE type='table'
 			 ORDER BY name`;
-	db.all(sql, [], (err, rows) => {
+	db.all(sql, [], (err, coins) => {
 		if (err)
 			return next(err);
 
-		res.render('CoinsIndex', {rows: rows, title: "Index of Coins"});
+		// render the list of all coins in the view 'CoinsIndex'
+		res.render('CoinsIndex', {coins: coins, title: "Index of Coins"});
 	});
 
 	db.close((err) => {
