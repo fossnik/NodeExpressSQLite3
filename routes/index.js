@@ -38,7 +38,7 @@ function coinSnapList(req, res, next) {
 
 function getAllCoins(req, res, next) {
 	const sqlite3 = require('sqlite3').verbose();
-	const DB_PATH = 'coinsnapshot2.db';
+	const DB_PATH = 'coinsnapshot.db';
 
 	// access the database - create db object
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
@@ -52,6 +52,7 @@ function getAllCoins(req, res, next) {
 	let sql = `SELECT name
 			 FROM sqlite_master
 			 WHERE type='table'
+			 AND name!='sqlite_sequence'
 			 ORDER BY name`;
 	db.all(sql, [], (err, coins) => {
 		if (err)

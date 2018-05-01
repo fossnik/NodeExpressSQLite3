@@ -5,8 +5,8 @@ block content
     p Welcome to #{title}
 
 dl
-each snap in snaps
+each snap, index in snaps
     dd
         |
-        a(href='/' + snap.dateCreated) #{snap.dateCreated}
+        a(href='/' + coin + '/' + (index + 1)) #{snap.dateCreated}
         |
