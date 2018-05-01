@@ -86,7 +86,7 @@ function getAllCoins(req, res, next) {
 	});
 
 	// acquire list of table names (coins)
-	let sql = `SELECT name
+	const sql = `SELECT name
 			 FROM sqlite_master
 			 WHERE type='table'
 			 AND name!='sqlite_sequence'
