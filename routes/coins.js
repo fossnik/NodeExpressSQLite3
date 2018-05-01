@@ -1,12 +1,11 @@
-var express = require('express');
-var router = express.Router();
+let express = require('express');
+let router = express.Router();
 
 /* GET coins listing. */
 router.get('/', getAllCoins);
 
 function getAllCoins(req, res, next) {
 	const sqlite3 = require('sqlite3').verbose();
-
 	const DB_PATH = 'coinsnapshot.db';
 
 	// access the database - create db object
@@ -18,19 +17,19 @@ function getAllCoins(req, res, next) {
 	});
 
 	// acquire list of table names (coins)
-	let coins = "";
-	db.serialize(() => {
-		let sql = `SELECT name
+	let sql = `SELECT name
 			 FROM sqlite_master
 			 WHERE type='table'
 			 ORDER BY name`;
-		db.each(
-			sql, (err, table) => {
-				if (err)
-					console.error(err.message);
+	db.all(sql, [], (err, rows) => {
+		if (err)
+			return next(err);
 
-				coins += table.name + '\n';
-			})
+		rows.forEach((row) => {
+			console.log(row.name);
+		});
+
+		res.render('coins', {rows: rows});
 	});
 
 	db.close((err) => {
@@ -39,7 +38,6 @@ function getAllCoins(req, res, next) {
 
 		console.log('Closed the CoinDB Database.');
 	});
-	res.send(coins);
 }
 
 module.exports = router;
