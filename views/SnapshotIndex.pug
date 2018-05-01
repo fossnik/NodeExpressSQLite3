@@ -1,0 +1,12 @@
+//extends layout
+
+block content
+    h1= title
+    p Welcome to #{title}
+
+dl
+each snap in snaps
+    dd
+        |
+        a(href='/' + snap.dateCreated) #{snap.dateCreated}
+        |
