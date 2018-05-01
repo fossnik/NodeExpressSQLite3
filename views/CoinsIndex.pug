@@ -4,8 +4,9 @@ block content
   h1= title
   p Welcome to #{title}
 
-ul
-  each coin in coins
-      a(href='/' + coin.name) #{coin.name}
+dl
+each coin in coins
+  dd
       |
+      a(href='/' + coin.name) #{coin.name}
       |
