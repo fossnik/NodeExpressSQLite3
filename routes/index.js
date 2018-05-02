@@ -1,15 +1,14 @@
 let express = require('express');
 let router = express.Router();
+const sqlite3 = require('sqlite3').verbose();
+const DB_PATH = 'coinsnapshot.db';
 
 /* GET coins listing. */
-router.get('/', getAllCoins);
-router.get('/:currencyPair', coinSnapList);
-router.get('/:currencyPair/:snapId', coinSnapDetails);
+router.get('/', CoinsIndex);
+router.get('/:currencyPair', SnapshotIndex);
+router.get('/:currencyPair/:snapId', SnapshotDetail);
 
-function coinSnapDetails(req, res, next) {
-	const sqlite3 = require('sqlite3').verbose();
-	const DB_PATH = 'coinsnapshot.db';
-
+function SnapshotDetail(req, res, next) {
 	// access the database - create db object
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
 		if (err)
@@ -40,10 +39,7 @@ function coinSnapDetails(req, res, next) {
 	});
 }
 
-function coinSnapList(req, res, next) {
-	const sqlite3 = require('sqlite3').verbose();
-	const DB_PATH = 'coinsnapshot.db';
-
+function SnapshotIndex(req, res, next) {
 	// access the database - create db object
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
 		if (err)
@@ -53,7 +49,7 @@ function coinSnapList(req, res, next) {
 	});
 
 	const coin = req.params.currencyPair;
-	const sql = `SELECT dateCreated
+	const sql = `SELECT dateCreated, ID
 	 			FROM ${coin}
 	 			ORDER BY ID`;
 
@@ -73,10 +69,7 @@ function coinSnapList(req, res, next) {
 	});
 }
 
-function getAllCoins(req, res, next) {
-	const sqlite3 = require('sqlite3').verbose();
-	const DB_PATH = 'coinsnapshot.db';
-
+function CoinsIndex(req, res, next) {
 	// access the database - create db object
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
 		if (err)
