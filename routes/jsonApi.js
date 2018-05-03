@@ -4,9 +4,9 @@ const sqlite3 = require('sqlite3').verbose();
 const DB_PATH = 'coinsnapshot.db';
 
 /* GET coins listing. */
-router.get('/coins', getAllCoins);
-router.get('/snapshots/:currencyPair', coinSnapList);
-router.get('/snapshots/:currencyPair/:snapId', coinSnapDetails);
+router.get('/', getAllCoins);
+router.get('/:currencyPair', coinSnapList);
+router.get('/:currencyPair/:snapId', coinSnapDetails);
 
 function coinSnapDetails(req, res, next) {
 	// access the database - create db object
