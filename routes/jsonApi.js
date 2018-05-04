@@ -28,7 +28,7 @@ function coinSnapDetails(req, res, next) {
 			return next(err);
 
 		// db.all method passes an array - in this case there is only 1 member
-		res.json(details[0]);
+		res.json({details: details[0]});
 		console.log(`Passed back detailed snapshot #${snapId} for ${coin}`);
 	});
 
@@ -58,7 +58,7 @@ function coinSnapList(req, res, next) {
 		if (err)
 			return next(err);
 
-		res.json(snaps);
+		res.json({snaps});
 		console.log(`Passed back JSON array of ${snaps.length} snapshots`);
 	});
 
