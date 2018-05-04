@@ -93,7 +93,7 @@ function getAllCoins(req, res, next) {
 		coins.forEach((coin) => { names.push(coin.name) });
 
 		// return JSON array of all coins
-		res.json(names);
+		res.json({names});
 		console.log(`Passed back JSON array of ${coins.length} coin(s)`);
 	});
 
