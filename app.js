@@ -21,7 +21,9 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 var cors = require('cors');
-app.use(cors({origin: 'http://localhost:3000'}));
+
+// accept cross origin resource by origin
+app.use(cors({origin: 'http://localhost:80'}));
 app.use('/web', webRouter);
 app.use('/api', apiRouter);
 app.use('/', indexRouter);
