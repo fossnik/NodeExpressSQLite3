@@ -23,9 +23,8 @@ app.use(express.static(path.join(__dirname, 'public')));
 var cors = require('cors');
 
 // accept cross origin resource by origin
-app.use(cors({origin: '*'}));
 app.use('/web', webRouter);
-app.use('/api', apiRouter);
+app.use('/api', cors(), apiRouter);
 app.use('/', indexRouter);
 
 // catch 404 and forward to error handler
