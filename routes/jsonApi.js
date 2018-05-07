@@ -13,8 +13,6 @@ function coinSnapDetails(req, res, next) {
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
 		if (err)
 			console.error(err.message);
-
-		console.log('Connected to the Database.');
 	});
 
 	const coin = req.params.currencyPair;
@@ -35,8 +33,6 @@ function coinSnapDetails(req, res, next) {
 	db.close((err) => {
 		if (err)
 			console.error(err.message);
-
-		console.log('Closed the Database.');
 	});
 }
 
@@ -45,8 +41,6 @@ function coinSnapList(req, res, next) {
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
 		if (err)
 			console.error(err.message);
-
-		console.log('Connected to the Database.');
 	});
 
 	const coin = req.params.currencyPair;
@@ -65,8 +59,6 @@ function coinSnapList(req, res, next) {
 	db.close((err) => {
 		if (err)
 			console.error(err.message);
-
-		console.log('Closed the Database.');
 	});
 }
 
@@ -76,7 +68,7 @@ function getAllCoins(req, res, next) {
 		if (err)
 			console.error(err.message);
 
-		console.log('Connected to the Database.');
+		console.log('JSON API <-> Database @ ' + new Date.toUTCString());
 	});
 
 	// acquire list of table names (coins)
@@ -100,8 +92,6 @@ function getAllCoins(req, res, next) {
 	db.close((err) => {
 		if (err)
 			console.error(err.message);
-
-		console.log('Closed the Database.');
 	});
 }
 
