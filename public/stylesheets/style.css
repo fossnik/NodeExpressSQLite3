@@ -1,8 +1,42 @@
 body {
-  padding: 50px;
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	padding: 50px;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+	color: #00B7FF;
+}
+
+h1, h2 {
+	text-align: center;
+}
+
+dl, ul {
+	list-style-type: none;
+	display: table;
+	background-color: beige;
+	width: 300px;
+	padding: 1em;
+	margin: auto;
+}
+
+dt {
+	font-weight: bolder;
+	padding: .5em;
+}
+
+dd {
+	float: right;
+	position: relative;
+	margin-top: -1.5em;
+}
+
+ul {
+	font-size: larger;
+	text-align: center;
+	width: auto;
+}
+
+li {
+	padding: .1em;
 }

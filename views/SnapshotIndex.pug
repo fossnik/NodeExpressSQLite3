@@ -1,12 +1,10 @@
-//extends layout
+extends layout
 
 block content
-    h1= title
-    p Welcome to #{title}
+	h1= title
+	h2 Welcome to #{title}
 
-dl
-each snap in snaps
-    dd
-        |
-        a(href='/web/' + coin + '/' + snap.ID) #{snap.dateCreated}
-        |
+	ul
+		each snap in snaps
+			li
+				a(href='/web/' + coin + '/' + snap.ID) #{snap.dateCreated}

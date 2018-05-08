@@ -1,12 +1,10 @@
-//extends layout
+extends layout
 
 block content
-  h1= title
-  p Welcome to #{title}
+	h1= title
+	h2 Welcome to #{title}
 
-dl
-each coin in coins
-  dd
-      |
-      a(href='/web/' + coin.symbol_safe) [ #{coin.symbol_full} ] -- #{coin.name}
-      |
+	ul
+		each coin in coins
+			li
+				a(href='/web/' + coin.symbol_safe) [ #{coin.symbol_full} ] -- #{coin.name}

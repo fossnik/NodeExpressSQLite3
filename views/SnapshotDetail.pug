@@ -1,24 +1,23 @@
-//extends layout
+extends layout
 
 block content
-    h1= details.name
+    h1= details.symbol_safe
     h2= details.dateCreated
 
-dl
-    dt="Symbol"
-    dd=details.symbol_safe
-    dt="Price"
-    dd=details.price
-    dt="Change"
-    dd=details.change
-    dt="Percent Change"
-    dd=details.marketCap
-    dt="Volume"
-    dd=details.volume
-    dt="24 Hour Volume"
-    dd=details.volume24h
-    dt="24 Hour Total Volume"
-    dd=details.totalVolume24h
-    dt="Circulating Supply"
-    dd=details.circulatingSupply
-
+    dl
+        dt="Symbol"
+        dd=details.symbol_safe
+        dt="Price"
+        dd=details.price
+        dt="Change"
+        dd=details.change
+        dt="Percent Change"
+        dd=details.marketCap
+        dt="Volume"
+        dd=details.volume
+        dt="24 Hour Volume"
+        dd=details.volume24h
+        dt="24 Hour Total Volume"
+        dd=details.totalVolume24h
+        dt="Circulating Supply"
+        dd=details.circulatingSupply
