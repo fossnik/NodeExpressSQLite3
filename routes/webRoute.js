@@ -67,7 +67,7 @@ function CoinsIndex(req, res, next) {
 		if (err)
 			console.error(err.message);
 
-		console.log('Web <-> Database @ ' + new Date.toUTCString());
+		console.log('Web <-> Database @ ' + new Date().toUTCString());
 	});
 
 	// acquire list of table names (coins)

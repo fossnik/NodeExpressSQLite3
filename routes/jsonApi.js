@@ -68,7 +68,7 @@ function getAllCoins(req, res, next) {
 		if (err)
 			console.error(err.message);
 
-		console.log('JSON API <-> Database @ ' + new Date.toUTCString());
+		console.log('JSON API <-> Database @ ' + new Date().toUTCString());
 	});
 
 	// acquire list of table names (coins)
