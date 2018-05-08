@@ -1,15 +1,15 @@
 let express = require('express');
 let router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
-const DB_PATH = 'coinsnapshot.db';
+const DB_PATH = 'RelationalSnapshot.db';
+let counter = 0;
 
-/* GET coins listing. */
-router.get('/', CoinsIndex);
-router.get('/:currencyPair', SnapshotIndex);
-router.get('/:currencyPair/:snapId', SnapshotDetail);
+/* GET /web endpoint */
+router.get('/', coinsIndex);
+router.get('/:currencyPair', snapshotIndex);
+router.get('/:currencyPair/:snapId', snapshotDetails);
 
-function SnapshotDetail(req, res, next) {
-	// access the database - create db object
+function snapshotDetails(req, res, next) {
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
 		if (err)
 			console.error(err.message);
@@ -25,8 +25,8 @@ function SnapshotDetail(req, res, next) {
 		if (err)
 			return next(err);
 
-		res.render('SnapshotDetail',{ details: details[0] });
-		console.log('Passed data to \'SnapshotDetail\' view');
+		res.render('SnapshotDetail',{details: details[0]});
+		console.log(`Passed detailed snapshot #${snapId} for ${coin} to 'SnapshotDetail' view`);
 	});
 
 	db.close((err) => {
@@ -35,8 +35,7 @@ function SnapshotDetail(req, res, next) {
 	});
 }
 
-function SnapshotIndex(req, res, next) {
-	// access the database - create db object
+function snapshotIndex(req, res, next) {
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
 		if (err)
 			console.error(err.message);
@@ -52,7 +51,7 @@ function SnapshotIndex(req, res, next) {
 			return next(err);
 
 		res.render('SnapshotIndex', {snaps: snaps, coin: coin, title: "Index of Snapshots"});
-		console.log('Passed ' + snaps.length + ' snapshots to \'SnapshotIndex\' view');
+		console.log(`Passed ${snaps.length} snapshots for ${coin.name} to 'SnapshotIndex' view`);
 	});
 
 	db.close((err) => {
@@ -61,28 +60,25 @@ function SnapshotIndex(req, res, next) {
 	});
 }
 
-function CoinsIndex(req, res, next) {
-	// access the database - create db object
+function coinsIndex(req, res, next) {
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
 		if (err)
 			console.error(err.message);
 
-		console.log('Web <-> Database @ ' + new Date().toUTCString());
+		console.log(` [${++counter}]\tWeb <=> Database @ ${new Date().toUTCString()}`);
 	});
 
 	// acquire list of table names (coins)
-	const sql = `SELECT name
-			 FROM sqlite_master
-			 WHERE type='table'
-			 AND name!='sqlite_sequence'
-			 ORDER BY name`;
+	const sql = `SELECT symbol_safe, symbol_full, name
+			 FROM _all_your_coin
+			 ORDER BY symbol_safe`;
 	db.all(sql, [], (err, coins) => {
 		if (err)
 			return next(err);
 
 		// render the list of all coins in the view 'CoinsIndex'
 		res.render('CoinsIndex', {coins: coins, title: "Index of Coins"});
-		console.log('Passed ' + coins.length + ' coins to \'CoinsIndex\' view');
+		console.log(`Passed ${coins.length} coins to 'CoinsIndex' view`);
 	});
 
 	db.close((err) => {

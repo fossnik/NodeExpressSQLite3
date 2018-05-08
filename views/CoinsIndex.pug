@@ -8,5 +8,5 @@ dl
 each coin in coins
   dd
       |
-      a(href='/web/' + coin.name) #{coin.name}
+      a(href='/web/' + coin.symbol_safe) [ #{coin.symbol_full} ] -- #{coin.name}
       |

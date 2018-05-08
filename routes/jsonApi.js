@@ -1,15 +1,15 @@
 let express = require('express');
 let router = express.Router();
 const sqlite3 = require('sqlite3').verbose();
-const DB_PATH = 'coinsnapshot.db';
+const DB_PATH = 'RelationalSnapshot.db';
+let counter = 0;
 
-/* GET coins listing. */
-router.get('/', getAllCoins);
-router.get('/:currencyPair', coinSnapList);
-router.get('/:currencyPair/:snapId', coinSnapDetails);
+/* GET /api endpoint */
+router.get('/', coinsIndex);
+router.get('/:currencyPair', snapshotIndex);
+router.get('/:currencyPair/:snapId', snapshotDetails);
 
-function coinSnapDetails(req, res, next) {
-	// access the database - create db object
+function snapshotDetails(req, res, next) {
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
 		if (err)
 			console.error(err.message);
@@ -25,9 +25,8 @@ function coinSnapDetails(req, res, next) {
 		if (err)
 			return next(err);
 
-		// db.all method passes an array - in this case there is only 1 member
 		res.json({details: details[0]});
-		console.log(`Passed back detailed snapshot #${snapId} for ${coin}`);
+		console.log(`Passed detailed snapshot #${snapId} for ${coin}`);
 	});
 
 	db.close((err) => {
@@ -36,8 +35,7 @@ function coinSnapDetails(req, res, next) {
 	});
 }
 
-function coinSnapList(req, res, next) {
-	// access the database - create db object
+function snapshotIndex(req, res, next) {
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
 		if (err)
 			console.error(err.message);
@@ -53,7 +51,7 @@ function coinSnapList(req, res, next) {
 			return next(err);
 
 		res.json({snaps});
-		console.log(`Passed back JSON array of ${snaps.length} snapshots`);
+		console.log(`Passed back JSON array of ${snaps.length} snapshots for ${coin.name}`);
 	});
 
 	db.close((err) => {
@@ -62,31 +60,25 @@ function coinSnapList(req, res, next) {
 	});
 }
 
-function getAllCoins(req, res, next) {
-	// access the database - create db object
+function coinsIndex(req, res, next) {
 	let db = new sqlite3.Database(DB_PATH, sqlite3.OPEN_READONLY, (err) => {
 		if (err)
 			console.error(err.message);
 
-		console.log('JSON API <-> Database @ ' + new Date().toUTCString());
+		console.log(` [${++counter}]\tJSON API <=> Database @ ${new Date().toUTCString()}`);
 	});
 
-	// acquire list of table names (coins)
-	const sql = `SELECT name
-			 FROM sqlite_master
-			 WHERE type='table'
-			 AND name!='sqlite_sequence'
-			 ORDER BY name`;
+	// acquire list of all coins
+	const sql = `SELECT symbol_safe, symbol_full, name
+			 FROM _all_your_coin
+			 ORDER BY symbol_safe`;
 	db.all(sql, [], (err, coins) => {
 		if (err)
 			return next(err);
 
-		let names = [];
-		coins.forEach((coin) => { names.push(coin.name) });
-
 		// return JSON array of all coins
-		res.json({names});
-		console.log(`Passed back JSON array of ${coins.length} coin(s)`);
+		res.json(coins);
+		console.log(`Returned JSON object of ${coins.length} coin(s)`);
 	});
 
 	db.close((err) => {
