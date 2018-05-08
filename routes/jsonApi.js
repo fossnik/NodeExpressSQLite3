@@ -18,7 +18,8 @@ function snapshotDetails(req, res, next) {
 	const coin = req.params.currencyPair;
 	const snapId = req.params.snapId;
 	const sql = `SELECT *
-	 			FROM ${coin}
+        		FROM _all_your_coin
+	 			NATURAL JOIN ${coin}
 	 			WHERE ID=${snapId}`;
 
 	db.all(sql, [], (err, details) => {

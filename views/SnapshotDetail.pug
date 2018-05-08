@@ -1,12 +1,12 @@
 extends layout
 
 block content
-    h1= details.symbol_safe
+    h1= details.name
     h2= details.dateCreated
 
     dl
         dt="Symbol"
-        dd=details.symbol_safe
+        dd=details.symbol_full
         dt="Price"
         dd=details.price
         dt="Change"
