@@ -42,16 +42,17 @@ function snapshotIndex(req, res, next) {
 	});
 
 	const coin = req.params.currencyPair;
-	const sql = `SELECT dateCreated, ID
-	 			FROM ${coin}
+	const sql = `SELECT ID, dateCreated, name
+	 			FROM _all_your_coin
+	 			NATURAL JOIN ${coin}
 	 			ORDER BY ID`;
 
 	db.all(sql, [], (err, snaps) => {
 		if (err)
 			return next(err);
 
-		res.json({snaps});
-		console.log(`Passed back JSON array of ${snaps.length} snapshots for ${coin.name}`);
+		res.json({coinName: snaps[0].name, snapshots: snaps.map(snap => [snap.ID, snap.dateCreated])});
+		console.log(`Passed back JSON array of ${snaps.length} snapshots for ${coin}`);
 	});
 
 	db.close((err) => {

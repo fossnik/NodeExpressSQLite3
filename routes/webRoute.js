@@ -42,16 +42,18 @@ function snapshotIndex(req, res, next) {
 	});
 
 	const coin = req.params.currencyPair;
-	const sql = `SELECT dateCreated, ID
-	 			FROM ${coin}
+	const sql = `SELECT ID, dateCreated, name
+	 			FROM _all_your_coin
+	 			NATURAL JOIN ${coin}
 	 			ORDER BY ID`;
 
 	db.all(sql, [], (err, snaps) => {
 		if (err)
 			return next(err);
 
-		res.render('SnapshotIndex', {snaps: snaps, coin: coin, title: "Index of Snapshots"});
-		console.log(`Passed ${snaps.length} snapshots for ${coin.name} to 'SnapshotIndex' view`);
+		res.render('SnapshotIndex', {
+			coinName: snaps[0].name, symbolSafe: coin, snapshots: snaps.map(snap => [snap.ID, snap.dateCreated])});
+		console.log(`Passed ${snaps.length} snapshots for ${coin} to 'SnapshotIndex' view`);
 	});
 
 	db.close((err) => {

@@ -1,10 +1,10 @@
 extends layout
 
 block content
-	h1= title
-	h2 Welcome to #{title}
+	h1 Index of Snapshots
+	h2 #{name}
 
 	ul
-		each snap in snaps
+		each snap in snapshots
 			li
-				a(href='/web/' + coin + '/' + snap.ID) #{snap.dateCreated}
+				a(href='/web/' + symbolSafe + '/' + snap[0]) #{snap[1]}
