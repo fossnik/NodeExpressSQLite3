@@ -77,7 +77,7 @@ function coinsIndex(req, res, next) {
 			return next(err);
 
 		// return JSON array of all coins
-		res.json(coins);
+		res.json({coins});
 		console.log(`Returned JSON object of ${coins.length} coin(s)`);
 	});
 
