@@ -52,7 +52,12 @@ function snapshotIndex(req, res, next) {
 		if (err)
 			return next(err);
 
-		res.json({coinName: snaps[0].name, snapshots: snaps.map(snap => [snap.ID, snap.dateCreated])});
+		// create snapshot-ID-indexed array of ID:datetime key-value pairs
+		let snapReturn = {};
+		for (let i = 0, len = snaps.length; i < len; i++)
+			snapReturn[snaps[i].ID] = snaps[i].dateCreated;
+
+		res.json({coinName: snaps[0].name, snapshots: snapReturn});
 		console.log(`Passed back JSON array of ${snaps.length} snapshots for ${coin}`);
 	});
 
